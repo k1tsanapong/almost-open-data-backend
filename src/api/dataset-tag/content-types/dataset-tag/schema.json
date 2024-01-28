@@ -1,0 +1,26 @@
+{
+  "kind": "collectionType",
+  "collectionName": "dataset_tags",
+  "info": {
+    "singularName": "dataset-tag",
+    "pluralName": "dataset-tags",
+    "displayName": "Dataset_Tag",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "dataset_id": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::dataset.dataset"
+    },
+    "tag_id": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::tag.tag"
+    }
+  }
+}

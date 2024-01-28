@@ -1,0 +1,53 @@
+{
+  "kind": "collectionType",
+  "collectionName": "datasets",
+  "info": {
+    "singularName": "dataset",
+    "pluralName": "datasets",
+    "displayName": "Dataset",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "resource_id": {
+      "type": "string",
+      "unique": true,
+      "required": false
+    },
+    "detailed_information": {
+      "type": "text"
+    },
+    "visibility": {
+      "type": "boolean"
+    },
+    "objective": {
+      "type": "string"
+    },
+    "data_source": {
+      "type": "string"
+    },
+    "terms_and_conditions_for_accessing_information": {
+      "type": "string"
+    },
+    "license_agreement": {
+      "type": "string"
+    },
+    "sponsor_or_co_operator": {
+      "type": "string"
+    },
+    "lowest_subunit_of_data_storage": {
+      "type": "string"
+    },
+    "high_value_dataset": {
+      "type": "string"
+    }
+  }
+}
