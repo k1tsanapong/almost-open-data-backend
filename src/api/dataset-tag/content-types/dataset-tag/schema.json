@@ -4,7 +4,7 @@
   "info": {
     "singularName": "dataset-tag",
     "pluralName": "dataset-tags",
-    "displayName": "Dataset_Tag",
+    "displayName": "Dataset Tag",
     "description": ""
   },
   "options": {
@@ -14,13 +14,15 @@
   "attributes": {
     "dataset_id": {
       "type": "relation",
-      "relation": "oneToOne",
-      "target": "api::dataset.dataset"
+      "relation": "manyToOne",
+      "target": "api::dataset.dataset",
+      "inversedBy": "dataset_tags"
     },
     "tag_id": {
       "type": "relation",
-      "relation": "oneToOne",
-      "target": "api::tag.tag"
+      "relation": "manyToOne",
+      "target": "api::tag.tag",
+      "inversedBy": "dataset_tags"
     }
   }
 }

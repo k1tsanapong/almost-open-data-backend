@@ -583,6 +583,53 @@ export interface PluginContentReleasesReleaseAction
   };
 }
 
+export interface PluginI18NLocale extends Schema.CollectionType {
+  collectionName: 'i18n_locale';
+  info: {
+    singularName: 'locale';
+    pluralName: 'locales';
+    collectionName: 'locales';
+    displayName: 'Locale';
+    description: '';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  pluginOptions: {
+    'content-manager': {
+      visible: false;
+    };
+    'content-type-builder': {
+      visible: false;
+    };
+  };
+  attributes: {
+    name: Attribute.String &
+      Attribute.SetMinMax<
+        {
+          min: 1;
+          max: 50;
+        },
+        number
+      >;
+    code: Attribute.String & Attribute.Unique;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'plugin::i18n.locale',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'plugin::i18n.locale',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface PluginUsersPermissionsPermission
   extends Schema.CollectionType {
   collectionName: 'up_permissions';
@@ -734,53 +781,6 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
   };
 }
 
-export interface PluginI18NLocale extends Schema.CollectionType {
-  collectionName: 'i18n_locale';
-  info: {
-    singularName: 'locale';
-    pluralName: 'locales';
-    collectionName: 'locales';
-    displayName: 'Locale';
-    description: '';
-  };
-  options: {
-    draftAndPublish: false;
-  };
-  pluginOptions: {
-    'content-manager': {
-      visible: false;
-    };
-    'content-type-builder': {
-      visible: false;
-    };
-  };
-  attributes: {
-    name: Attribute.String &
-      Attribute.SetMinMax<
-        {
-          min: 1;
-          max: 50;
-        },
-        number
-      >;
-    code: Attribute.String & Attribute.Unique;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'plugin::i18n.locale',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'plugin::i18n.locale',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
 export interface ApiDatasetDataset extends Schema.CollectionType {
   collectionName: 'datasets';
   info: {
@@ -794,16 +794,21 @@ export interface ApiDatasetDataset extends Schema.CollectionType {
   };
   attributes: {
     title: Attribute.String & Attribute.Required & Attribute.Unique;
-    resource_id: Attribute.String & Attribute.Unique;
-    detailed_information: Attribute.Text;
-    visibility: Attribute.Boolean;
-    objective: Attribute.String;
-    data_source: Attribute.String;
-    terms_and_conditions_for_accessing_information: Attribute.String;
-    license_agreement: Attribute.String;
-    sponsor_or_co_operator: Attribute.String;
-    lowest_subunit_of_data_storage: Attribute.String;
-    high_value_dataset: Attribute.String;
+    detailed_information: Attribute.Text & Attribute.DefaultTo<'-'>;
+    visibility: Attribute.Boolean & Attribute.DefaultTo<false>;
+    objective: Attribute.String & Attribute.DefaultTo<'-'>;
+    data_source: Attribute.String & Attribute.DefaultTo<'-'>;
+    terms_and_conditions_for_accessing_information: Attribute.String &
+      Attribute.DefaultTo<'-'>;
+    license_agreement: Attribute.String & Attribute.DefaultTo<'-'>;
+    sponsor_or_co_operator: Attribute.String & Attribute.DefaultTo<'-'>;
+    lowest_subunit_of_data_storage: Attribute.String & Attribute.DefaultTo<'-'>;
+    high_value_dataset: Attribute.String & Attribute.DefaultTo<'-'>;
+    dataset_tags: Attribute.Relation<
+      'api::dataset.dataset',
+      'oneToMany',
+      'api::dataset-tag.dataset-tag'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -822,12 +827,48 @@ export interface ApiDatasetDataset extends Schema.CollectionType {
   };
 }
 
+export interface ApiDatasetFileDatasetFile extends Schema.CollectionType {
+  collectionName: 'dataset_files';
+  info: {
+    singularName: 'dataset-file';
+    pluralName: 'dataset-files';
+    displayName: 'Dataset File';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    dataset: Attribute.Relation<
+      'api::dataset-file.dataset-file',
+      'oneToOne',
+      'api::dataset.dataset'
+    >;
+    file: Attribute.Media;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::dataset-file.dataset-file',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::dataset-file.dataset-file',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface ApiDatasetTagDatasetTag extends Schema.CollectionType {
   collectionName: 'dataset_tags';
   info: {
     singularName: 'dataset-tag';
     pluralName: 'dataset-tags';
-    displayName: 'Dataset_Tag';
+    displayName: 'Dataset Tag';
     description: '';
   };
   options: {
@@ -836,12 +877,12 @@ export interface ApiDatasetTagDatasetTag extends Schema.CollectionType {
   attributes: {
     dataset_id: Attribute.Relation<
       'api::dataset-tag.dataset-tag',
-      'oneToOne',
+      'manyToOne',
       'api::dataset.dataset'
     >;
     tag_id: Attribute.Relation<
       'api::dataset-tag.dataset-tag',
-      'oneToOne',
+      'manyToOne',
       'api::tag.tag'
     >;
     createdAt: Attribute.DateTime;
@@ -875,7 +916,14 @@ export interface ApiTagTag extends Schema.CollectionType {
   };
   attributes: {
     title: Attribute.String & Attribute.Required & Attribute.Unique;
-    hex_color: Attribute.String & Attribute.DefaultTo<'#000000'>;
+    hex_color: Attribute.String &
+      Attribute.Required &
+      Attribute.DefaultTo<'#000000'>;
+    dataset_tags: Attribute.Relation<
+      'api::tag.tag',
+      'oneToMany',
+      'api::dataset-tag.dataset-tag'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -900,11 +948,12 @@ declare module '@strapi/types' {
       'plugin::upload.folder': PluginUploadFolder;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
+      'plugin::i18n.locale': PluginI18NLocale;
       'plugin::users-permissions.permission': PluginUsersPermissionsPermission;
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
-      'plugin::i18n.locale': PluginI18NLocale;
       'api::dataset.dataset': ApiDatasetDataset;
+      'api::dataset-file.dataset-file': ApiDatasetFileDatasetFile;
       'api::dataset-tag.dataset-tag': ApiDatasetTagDatasetTag;
       'api::tag.tag': ApiTagTag;
     }

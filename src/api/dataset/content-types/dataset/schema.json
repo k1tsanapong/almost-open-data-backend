@@ -17,37 +17,48 @@
       "required": true,
       "unique": true
     },
-    "resource_id": {
-      "type": "string",
-      "unique": true,
-      "required": false
-    },
     "detailed_information": {
-      "type": "text"
+      "type": "text",
+      "default": "-"
     },
     "visibility": {
-      "type": "boolean"
+      "type": "boolean",
+      "default": false
     },
     "objective": {
-      "type": "string"
+      "type": "string",
+      "default": "-"
     },
     "data_source": {
-      "type": "string"
+      "type": "string",
+      "default": "-"
     },
     "terms_and_conditions_for_accessing_information": {
-      "type": "string"
+      "type": "string",
+      "default": "-"
     },
     "license_agreement": {
-      "type": "string"
+      "type": "string",
+      "default": "-"
     },
     "sponsor_or_co_operator": {
-      "type": "string"
+      "type": "string",
+      "default": "-"
     },
     "lowest_subunit_of_data_storage": {
-      "type": "string"
+      "type": "string",
+      "default": "-"
     },
     "high_value_dataset": {
-      "type": "string"
+      "type": "string",
+      "default": "-",
+      "required": false
+    },
+    "dataset_tags": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::dataset-tag.dataset-tag",
+      "mappedBy": "dataset_id"
     }
   }
 }

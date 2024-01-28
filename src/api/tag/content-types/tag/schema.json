@@ -21,7 +21,13 @@
       "type": "string",
       "default": "#000000",
       "regex": "^#(?:[0-9a-fA-F]{3}){1,2}$",
-      "required": false
+      "required": true
+    },
+    "dataset_tags": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::dataset-tag.dataset-tag",
+      "mappedBy": "tag_id"
     }
   }
 }

@@ -254,6 +254,18 @@
     enabled "2.0.x"
     kuler "^2.0.0"
 
+"@dagrejs/dagre@^1.0.4":
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/@dagrejs/dagre/-/dagre-1.0.4.tgz#16ab98b457dbceccdbd3b23bc96e76bb8b925580"
+  integrity sha512-jrEore+HhW1yg1Rsd9H1PPMcoEOD4bVh0WCXc6GqzyzubnJj4GaWGg8ETOrskTd/3n/g5LOzumGM4CCgpNLJNw==
+  dependencies:
+    "@dagrejs/graphlib" "2.1.13"
+
+"@dagrejs/graphlib@2.1.13":
+  version "2.1.13"
+  resolved "https://registry.yarnpkg.com/@dagrejs/graphlib/-/graphlib-2.1.13.tgz#7d0481966e67226d0a864484524f0db933ffc753"
+  integrity sha512-calbMa7Gcyo+/t23XBaqQqon8LlgE9regey4UVoikoenKBXvUnCUL3s9RP6USCxttfr0XWVICtYUuKMdehKqMw==
+
 "@discoveryjs/json-ext@0.5.7":
   version "0.5.7"
   resolved "https://registry.yarnpkg.com/@discoveryjs/json-ext/-/json-ext-0.5.7.tgz#1d572bfbbe14b7704e0ba0f39b74815b84870d70"
@@ -1639,7 +1651,7 @@
     semver "7.5.4"
     umzug "3.2.1"
 
-"@strapi/design-system@1.14.1":
+"@strapi/design-system@1.14.1", "@strapi/design-system@^1.6.3":
   version "1.14.1"
   resolved "https://registry.yarnpkg.com/@strapi/design-system/-/design-system-1.14.1.tgz#cac587cc3859e34c385b3f3e9072434ef0ec1e4b"
   integrity sha512-BHWX0f8l4JNhds4c4S2Vop60eF+wK2c0dLoq+8fKB3rZOftS5deO1BuFWo7XzZHF4MFbGT5mYWys9J5ANVBA6A==
@@ -1690,7 +1702,7 @@
     plop "2.7.6"
     pluralize "8.0.0"
 
-"@strapi/helper-plugin@4.19.0":
+"@strapi/helper-plugin@4.19.0", "@strapi/helper-plugin@^4.6.0":
   version "4.19.0"
   resolved "https://registry.yarnpkg.com/@strapi/helper-plugin/-/helper-plugin-4.19.0.tgz#62530daefa920cf68ece05dccc396c4e05bc603e"
   integrity sha512-zG7PmtrLdYfGNWjHoM5w2MJqFuoOJlc2IgyOYXNXOJcUMb3PvdoiywW1KkJFK9pkH2MbjvGO13LJBsPKaEwQAg==
@@ -1706,7 +1718,7 @@
     react-query "3.39.3"
     react-select "5.7.0"
 
-"@strapi/icons@1.14.1":
+"@strapi/icons@1.14.1", "@strapi/icons@^1.6.3":
   version "1.14.1"
   resolved "https://registry.yarnpkg.com/@strapi/icons/-/icons-1.14.1.tgz#8f820512d0c9a8b75570f7a96ea42c969f65263b"
   integrity sha512-ja3et1QIo+6kTfk/mzeSiLTtZ6pCC6mwvUlp8qGyBTQ5BJvMacgxEdXBnYRn6fbYt6fl7gAKCORRQpnHNQfwjg==
@@ -8668,6 +8680,18 @@ statuses@2.0.1, statuses@^2.0.1:
   version "1.5.0"
   resolved "https://registry.yarnpkg.com/statuses/-/statuses-1.5.0.tgz#161c7dac177659fd9811f43771fa99381478628c"
   integrity sha512-OpZ3zP+jT1PI7I8nemJX4AKmAX070ZkYPVWV/AaKTJl+tXCTGyVdC1a4SL8RUQYEwk/f34ZX8UTykN68FwrqAA==
+
+strapi-plugin-entity-relationship-chart@^4.14.6:
+  version "4.14.6"
+  resolved "https://registry.yarnpkg.com/strapi-plugin-entity-relationship-chart/-/strapi-plugin-entity-relationship-chart-4.14.6.tgz#59cc11f265780aadec75253c0899ef229b818392"
+  integrity sha512-l3tYM6DZ5drNVMYljo70C1+FbgAA+dzextRA9f1Ca+9y8oztyO5OTSCp0kGRMt+BuRTx8h4o+ksUiyK6HgK+8Q==
+  dependencies:
+    "@dagrejs/dagre" "^1.0.4"
+    "@strapi/design-system" "^1.6.3"
+    "@strapi/helper-plugin" "^4.6.0"
+    "@strapi/icons" "^1.6.3"
+    lodash "^4.17.21"
+    prop-types "^15.7.2"
 
 stream-chain@2.2.5, stream-chain@^2.2.5:
   version "2.2.5"
