@@ -14,8 +14,9 @@
   "attributes": {
     "dataset": {
       "type": "relation",
-      "relation": "oneToOne",
-      "target": "api::dataset.dataset"
+      "relation": "manyToOne",
+      "target": "api::dataset.dataset",
+      "inversedBy": "dataset_files"
     },
     "file": {
       "type": "media",

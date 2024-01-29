@@ -59,6 +59,12 @@
       "relation": "oneToMany",
       "target": "api::dataset-tag.dataset-tag",
       "mappedBy": "dataset_id"
+    },
+    "dataset_files": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::dataset-file.dataset-file",
+      "mappedBy": "dataset"
     }
   }
 }

@@ -809,6 +809,11 @@ export interface ApiDatasetDataset extends Schema.CollectionType {
       'oneToMany',
       'api::dataset-tag.dataset-tag'
     >;
+    dataset_files: Attribute.Relation<
+      'api::dataset.dataset',
+      'oneToMany',
+      'api::dataset-file.dataset-file'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -841,7 +846,7 @@ export interface ApiDatasetFileDatasetFile extends Schema.CollectionType {
   attributes: {
     dataset: Attribute.Relation<
       'api::dataset-file.dataset-file',
-      'oneToOne',
+      'manyToOne',
       'api::dataset.dataset'
     >;
     file: Attribute.Media;
@@ -903,6 +908,43 @@ export interface ApiDatasetTagDatasetTag extends Schema.CollectionType {
   };
 }
 
+export interface ApiRequestDatasetRequestDataset extends Schema.CollectionType {
+  collectionName: 'request_datasets';
+  info: {
+    singularName: 'request-dataset';
+    pluralName: 'request-datasets';
+    displayName: 'Request Dataset';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    dataset_name: Attribute.String & Attribute.Required;
+    dataset_details: Attribute.String & Attribute.Required;
+    data_owner: Attribute.String & Attribute.Required;
+    purpose_of_use: Attribute.String & Attribute.Required;
+    dataset_group: Attribute.String & Attribute.Required;
+    requester_first_name: Attribute.String & Attribute.Required;
+    requester_last_name: Attribute.String & Attribute.Required;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::request-dataset.request-dataset',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::request-dataset.request-dataset',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface ApiTagTag extends Schema.CollectionType {
   collectionName: 'tags';
   info: {
@@ -955,6 +997,7 @@ declare module '@strapi/types' {
       'api::dataset.dataset': ApiDatasetDataset;
       'api::dataset-file.dataset-file': ApiDatasetFileDatasetFile;
       'api::dataset-tag.dataset-tag': ApiDatasetTagDatasetTag;
+      'api::request-dataset.request-dataset': ApiRequestDatasetRequestDataset;
       'api::tag.tag': ApiTagTag;
     }
   }

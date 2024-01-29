@@ -1,0 +1,44 @@
+{
+  "kind": "collectionType",
+  "collectionName": "request_datasets",
+  "info": {
+    "singularName": "request-dataset",
+    "pluralName": "request-datasets",
+    "displayName": "Request Dataset",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "dataset_name": {
+      "type": "string",
+      "required": true
+    },
+    "dataset_details": {
+      "type": "string",
+      "required": true
+    },
+    "data_owner": {
+      "type": "string",
+      "required": true
+    },
+    "purpose_of_use": {
+      "type": "string",
+      "required": true
+    },
+    "dataset_group": {
+      "type": "string",
+      "required": true
+    },
+    "requester_first_name": {
+      "type": "string",
+      "required": true
+    },
+    "requester_last_name": {
+      "type": "string",
+      "required": true
+    }
+  }
+}
