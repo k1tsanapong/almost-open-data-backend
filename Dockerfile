@@ -15,5 +15,5 @@ COPY . .
 RUN chown -R node:node /opt/app
 USER node
 RUN ["yarn", "build"]
-EXPOSE 1337
+EXPOSE 3001
 CMD ["yarn", "develop"]
