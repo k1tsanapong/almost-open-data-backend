@@ -1,0 +1,13 @@
+.tmp/
+
+.cache/
+
+.git/
+
+build/
+
+node_modules/
+
+data/
+
+npm-debug.log
