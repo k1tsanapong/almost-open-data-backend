@@ -62,7 +62,7 @@ images:
  
 substitutions:
   _REGISTRY: 'docker-repo'
-  _REPO: 'stock-management-frontend'
+  _REPO: 'almost-open-data-backend'
   _REGION: 'us-central1'
   _REGION_CLOUD_RUN: 'asia-southeast1'
   _PORT: '1337'
