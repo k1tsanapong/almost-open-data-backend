@@ -1,6 +1,6 @@
 steps:
  # Build the container image
- - name: 'Build the container image'
+ - name: 'gcr.io/cloud-builders/docker'
    args: [ 'build', 
            '--build-arg', 'HOST=${_HOST}',
            '--build-arg', 'PORT=${_PORT}',
@@ -20,11 +20,11 @@ steps:
            '.' ]
 
  # Push the container image to Container Registry
- - name: 'Push the container image to Container Registry'
+ - name: 'gcr.io/cloud-builders/docker'
    args: ['push', '${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REGISTRY}/${_REPO}:$COMMIT_SHA']
 
  # Deploy container image to Cloud Run
- - name: 'Deploy container image to Cloud Run'
+ - name: 'gcr.io/cloud-builders/gcloud'
    entrypoint: gcloud
    args:
    - 'run'
@@ -47,7 +47,7 @@ steps:
    - '512Mi'
 
  # Add IAM policy binding to allow all users to invoke the service
- - name: 'Add IAM policy binding to allow all users to invoke the service'
+ - name: 'gcr.io/cloud-builders/gcloud'
    entrypoint: gcloud
    args:
    - 'run'
