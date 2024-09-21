@@ -1,3 +1,6 @@
+# Deploy
+https://almost-open-data-backend-568599804906.asia-southeast1.run.app
+
 # 🚀 Getting started with Strapi
 
 Strapi comes with a full featured [Command Line Interface](https://docs.strapi.io/dev-docs/cli) (CLI) which lets you scaffold and manage your project in seconds.
