@@ -1,0 +1,85 @@
+steps:
+ # Build the container image
+ - name: 'Build the container image'
+   args: [ 'build', 
+           '--build-arg', 'HOST=${_HOST}',
+           '--build-arg', 'PORT=${_PORT}',
+           '--build-arg', 'APP_KEYS=${_APP_KEYS}',
+           '--build-arg', 'API_TOKEN_SALT=${_API_TOKEN_SALT}',
+           '--build-arg', 'ADMIN_JWT_SECRET=${_ADMIN_JWT_SECRET}',
+           '--build-arg', 'TRANSFER_TOKEN_SALT=${_TRANSFER_TOKEN_SALT}',
+           '--build-arg', 'DATABASE_CLIENT=${_DATABASE_CLIENT}',
+           '--build-arg', 'DATABASE_HOST=${_DATABASE_HOST}',
+           '--build-arg', 'DATABASE_PORT=${_DATABASE_PORT}',
+           '--build-arg', 'DATABASE_NAME=${_DATABASE_NAME}',
+           '--build-arg', 'DATABASE_USERNAME=${_DATABASE_USERNAME}',
+           '--build-arg', 'DATABASE_PASSWORD=${_DATABASE_PASSWORD}',
+           '--build-arg', 'DATABASE_SSL=${_DATABASE_SSL}',
+           '--build-arg', 'JWT_SECRET=${_JWT_SECRET}',
+           '-t', '${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REGISTRY}/${_REPO}:$COMMIT_SHA', 
+           '.' ]
+
+ # Push the container image to Container Registry
+ - name: 'Push the container image to Container Registry'
+   args: ['push', '${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REGISTRY}/${_REPO}:$COMMIT_SHA']
+
+ # Deploy container image to Cloud Run
+ - name: 'Deploy container image to Cloud Run'
+   entrypoint: gcloud
+   args:
+   - 'run'
+   - 'deploy'
+   - '${_REPO}'
+   - '--image'
+   - '${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REGISTRY}/${_REPO}:$COMMIT_SHA'
+   - '--region'
+   - '${_REGION_CLOUD_RUN}'
+   - '--allow-unauthenticated'
+   - '--platform'
+   - 'managed'
+   - '--port'
+   - '${_PORT}'
+   - '--set-env-vars'
+   - 'HOST=${_HOST},APP_KEYS=${_APP_KEYS},API_TOKEN_SALT=${_API_TOKEN_SALT},ADMIN_JWT_SECRET=${_ADMIN_JWT_SECRET},TRANSFER_TOKEN_SALT=${_TRANSFER_TOKEN_SALT},DATABASE_CLIENT=${_DATABASE_CLIENT},DATABASE_HOST=${_DATABASE_HOST},DATABASE_PORT=${_DATABASE_PORT},DATABASE_NAME=${_DATABASE_NAME},DATABASE_USERNAME=${_DATABASE_USERNAME},DATABASE_PASSWORD=${_DATABASE_PASSWORD},DATABASE_SSL=${_DATABASE_SSL},JWT_SECRET=${_JWT_SECRET}'
+   - '--max-instances'
+   - '1'
+   - '--memory'
+   - '512Mi'
+
+ # Add IAM policy binding to allow all users to invoke the service
+ - name: 'Add IAM policy binding to allow all users to invoke the service'
+   entrypoint: gcloud
+   args:
+   - 'run'
+   - 'services'
+   - 'add-iam-policy-binding'
+   - '${_REPO}'
+   - '--region=${_REGION_CLOUD_RUN}'
+   - '--member=allUsers'
+   - '--role=roles/run.invoker'
+images:
+ - '${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REGISTRY}/${_REPO}'
+ 
+substitutions:
+  _REGISTRY: 'docker-repo'
+  _REPO: 'stock-management-frontend'
+  _REGION: 'us-central1'
+  _REGION_CLOUD_RUN: 'asia-southeast1'
+  _PORT: '1337'
+  _HOST: '0.0.0.0'
+  # Add other substitutions for sensitive data (consider using Secret Manager instead)
+  _APP_KEYS: '${_APP_KEYS}'
+  _API_TOKEN_SALT: '${_API_TOKEN_SALT}'
+  _ADMIN_JWT_SECRET: '${_ADMIN_JWT_SECRET}'
+  _TRANSFER_TOKEN_SALT: '${_TRANSFER_TOKEN_SALT}'
+  _DATABASE_CLIENT: '${_DATABASE_CLIENT}'
+  _DATABASE_HOST: '${_DATABASE_HOST}'
+  _DATABASE_PORT: '${_DATABASE_PORT}'
+  _DATABASE_NAME: '${_DATABASE_NAME}'
+  _DATABASE_USERNAME: '${_DATABASE_USERNAME}'
+  _DATABASE_PASSWORD: '${_DATABASE_PASSWORD}'
+  _DATABASE_SSL: '${_DATABASE_SSL}'
+  _JWT_SECRET: '${_JWT_SECRET}'
+
+options:
+  logging: CLOUD_LOGGING_ONLY
